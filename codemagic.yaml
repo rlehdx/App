@@ -1,0 +1,39 @@
+
+workflows:
+  android-workflow:
+    name: Android Build Workflow
+    max_build_duration: 60
+    environment:
+      vars:
+        # 환경 변수가 필요한 경우 여기에 추가
+        ANDROID_KEYSTORE: Encrypted(...) # APK 서명에 필요한 경우
+        ANDROID_KEYSTORE_PASSWORD: Encrypted(...)
+        ANDROID_KEY_ALIAS: Encrypted(...)
+        ANDROID_KEY_PASSWORD: Encrypted(...)
+      node: latest
+      ruby: default
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      os: linux
+    scripts:
+      - name: Install Dependencies
+        script: |
+          npm install
+      - name: Build Android APK
+        script: |
+          cd android
+          ./gradlew assembleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.apk # 빌드된 APK 파일을 저장
+    publishing:
+      email:
+        recipients:
+          - your.email@example.com # 빌드 결과를 받을 이메일 주소
+
+    # 빌드 후 APK 파일을 Codemagic UI에서 다운로드할 수 있도록 설정
+    cache:
+      paths:
+        - node_modules
+        - android/.gradle
+        - android/app/build
