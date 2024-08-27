@@ -1,4 +1,3 @@
-
 workflows:
   android-workflow:
     name: Android Build Workflow
@@ -11,11 +10,6 @@ workflows:
         ANDROID_KEY_ALIAS: Encrypted(...)
         ANDROID_KEY_PASSWORD: Encrypted(...)
       node: latest
-      ruby: default
-      flutter: stable
-      xcode: latest
-      cocoapods: default
-      os: linux
     scripts:
       - name: Install Dependencies
         script: |
@@ -30,10 +24,3 @@ workflows:
       email:
         recipients:
           - your.email@example.com # 빌드 결과를 받을 이메일 주소
-
-    # 빌드 후 APK 파일을 Codemagic UI에서 다운로드할 수 있도록 설정
-    cache:
-      paths:
-        - node_modules
-        - android/.gradle
-        - android/app/build
